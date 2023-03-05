@@ -5,8 +5,8 @@ echo "CLONE REPO TO APP"
 git clone $REPO ../app
 
 echo "MAKE ENV"
-cp env-example .env
-cp env-example ../app/.env
+cp -i env-example .env
+cp -i env-example ../app/env-example
 
 echo "START DOCKER"
 docker compose up -d
