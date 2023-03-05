@@ -33,9 +33,7 @@ services:
     ports:
       - '8080:80'
     depends_on:
-      - frontend
-      - backend
-      - phpmyadmin
+      - app
     volumes:
       - ./nginx:/etc/nginx/conf.d
     env_file:
