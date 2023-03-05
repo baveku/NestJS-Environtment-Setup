@@ -1,0 +1,49 @@
+services:
+  db:
+    image: docker.io/bitnami/mariadb:10.6
+    environment:
+      MARIADB_ROOT_HOST: ${DB_HOST}
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '3306:3306'
+    expose:
+      - 3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  maildev:
+    build:
+      context: .
+      dockerfile: maildev.Dockerfile
+    expose:
+      - 1080
+      - 1025
+
+  # Uncomment to use redis
+  redis:
+    image: redis:7-alpine
+    expose:
+      - 6379
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - '8080:80'
+    depends_on:
+      - frontend
+      - backend
+      - phpmyadmin
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    env_file:
+      - .env
+
+  app:
+    build:
+      context: ./app
+      dockerfile: ./app/e2e.Dockerfile
+    env_file:
+      - .env
