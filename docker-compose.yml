@@ -43,7 +43,7 @@ services:
 
   app:
     build:
-      context: ./app
-      dockerfile: ./app/e2e.Dockerfile
+      context: ../app
+      dockerfile: ../app/e2e.Dockerfile
     env_file:
       - .env
